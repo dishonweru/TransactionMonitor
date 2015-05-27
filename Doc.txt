@@ -1,0 +1,68 @@
+Class Chrono extends TimerTask:
+	Methods
+		void run: calls TransactionCore.dbConn() and TransactionCore.transactionCheck() methods to initiate transaction confirmation cycle
+				  - method is invoked in cycles of the preset duration (in this case30s).
+	Variables and Objects
+		Global: none
+		Local: startDate:Date -> run()
+		
+		
+Class Parameters:
+	Methods
+		Parameters() - Class Constructor
+		String[] readFile(File) - Access parameter text file and read all values contained, returns a String Array of parameters read.
+	Variables & Objects
+		Global: parameters:String[]
+		Local: dir:File -> Parameters()
+			   fin:File -> Parameters()
+			   
+			   fis:FileInputStrem -> readFile()
+			   br:BufferedReader -> readFile()
+			   counter:int -> readFile()
+			   
+Class TransactionCore:
+		Methods
+			TransactionCore() - Class Constructor
+			void dbConn() - Creates db Connection object initialized to a running db
+			void transactionCheck() - Fetches un-conirmed transactions from db and updates transaction in db status after receiving response from server
+			String sendGet(String) - Opens http connection to web service and pushes a GET with specified parameters. Returns a String containing response from web service to caller
+			void main(String[]) - initializes program execution via class constructor
+		Variables & Objects
+			Global: conn:Connection - sql connection
+					timer:Timer
+					pstmt:PreparedStatement - sql PreparedStatement
+					parameters:Parameters
+					paramValue:String[]
+					USER_AGENT:String
+					counter:int
+					successCounter:int
+					date:Date
+			Local:  url:String -> dbConn()
+			
+					sql:String -> transactionCheck()
+					url:String -> transactionCheck()
+					rs:ResultSet -> transactionCheck()
+					request_url:String -> transactionCheck()
+					rsp:String -> transactionCheck()
+					update_status:int -> transactionCheck()
+					
+					response:String -> sendGet()
+					obj:URL -> sendGet()
+					con:HttpURLConnection -> sendGet()
+					responseCode:int -> sendGet()
+					in:BufferedReader -> sendGet()
+					inputLine:String -> sendGet()
+					
+					transactioncore:TransactionCore -> main()
+					
+Class TransactionServer extends HttpServlet:
+		Methods
+			TransactionServer() - Class Constructor
+			void init(ServletConfig) - initializes servlet with default configs at start-up
+			void doGet(HttpServletRequest,HttpServletResponse) - Handles http GET request/response
+		Variables & Objects
+			Global: serialVersionUID:long
+					failureGen:int[]
+			Local:	request:HttpServletRequest -> doGet()
+					response:HttpServletResponse -> doGet()
+					randomNo:int -> doGet()
